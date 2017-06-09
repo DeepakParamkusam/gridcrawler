@@ -28,11 +28,11 @@ public:
   Hero();
   void initHero();
   void getInput();
+  bool isHeroOut();
+  bool isHeroCaught(int numEnemy,Robot enemy[]);
 };
 
 void dispBoard(int numEnemy, Robot enemy[],Hero hero);
-bool isHeroOut(Hero hero);
-bool isHeroCaught(int numEnemy,Robot enemy[],Hero hero);
 void enemyAI(int numEnemy, Robot all_enemy[], Robot& enemy, Hero& hero);
 bool enemyCollision(int numEnemy, Robot all_enemy[], Robot enemy);
 void dispRules(int flag);

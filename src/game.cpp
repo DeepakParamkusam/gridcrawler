@@ -27,11 +27,11 @@ int main(){
   // Display board and start game
   dispBoard(numEnemy,enemy,hero);
   while(1){
-    if(isHeroOut(hero)){
+    if(hero.isHeroOut()){
       std::cout << "You have won!\n";
       break;
     }
-    else if(isHeroCaught(numEnemy,enemy,hero)){
+    else if(hero.isHeroCaught(numEnemy,enemy)){
       std::cout << "You lost!\n";
       break;
     }

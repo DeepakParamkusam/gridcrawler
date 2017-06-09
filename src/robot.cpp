@@ -112,6 +112,20 @@ void Hero::getInput(){
   std::cin.ignore(256,'\n');
 }
 
+bool Hero::isHeroOut(){
+  return ((x_pos<0)||(x_pos>21)||(y_pos<0)||(y_pos>13));
+}
+
+bool Hero::isHeroCaught(int numEnemy, Robot enemy[]){
+  int flag = 0;
+  for(int i = 0; i<numEnemy; i++){
+    if((enemy[i].getXPos() == x_pos)&&(enemy[i].getYPos() == y_pos)){
+      flag++;
+    }
+  }
+  return flag>0;
+}
+
 void dispBoard(int numEnemy, Robot enemy[],Hero hero){
   system("clear");
   std::cout << "\n";
@@ -145,20 +159,6 @@ void dispBoard(int numEnemy, Robot enemy[],Hero hero){
     std::cout <<"\n";
   }
   dispRules(1);
-}
-
-bool isHeroOut(Hero hero){
-  return ((hero.getXPos()<0)||(hero.getXPos()>21)||(hero.getYPos()<0)||(hero.getYPos()>13));
-}
-
-bool isHeroCaught(int numEnemy, Robot enemy[], Hero hero){
-  int flag = 0;
-  for(int i = 0; i<numEnemy; i++){
-    if((enemy[i].getXPos() == hero.getXPos())&&(enemy[i].getYPos() == hero.getYPos())){
-      flag++;
-    }
-  }
-  return flag>0;
 }
 
 void enemyAI(int numEnemy, Robot all_enemy[], Robot& enemy, Hero& hero){
