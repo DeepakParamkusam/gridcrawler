@@ -1,9 +1,5 @@
 #include "robot.h"
 
-Robot::Robot(){
-  initRobot();
-}
-
 void Robot::initRobot(){
   x_pos = rand()%22;
   y_pos = rand()%14;
@@ -62,6 +58,16 @@ int Robot::getDirec(){
   return direc;
 }
 
+int Robot::collisions(int numEnemy, Robot all_enemy[]){
+  int flag = 0;
+  for(int i = 0; i<numEnemy; i++){
+    if((all_enemy[i].getXPos()==x_pos)&&(all_enemy[i].getYPos()==y_pos)){
+      flag++;
+    }
+  }
+  return flag;
+}
+
 Hero::Hero(){
   initHero();
 }
@@ -117,13 +123,63 @@ bool Hero::isHeroOut(){
 }
 
 bool Hero::isHeroCaught(int numEnemy, Robot enemy[]){
-  int flag = 0;
-  for(int i = 0; i<numEnemy; i++){
-    if((enemy[i].getXPos() == x_pos)&&(enemy[i].getYPos() == y_pos)){
-      flag++;
+  return collisions(numEnemy, enemy)>0;
+}
+
+ChasingRobot::ChasingRobot(){
+  initRobot();
+}
+
+void ChasingRobot::chaseAI(int numEnemy, Robot all_enemy[], Hero hero){
+  int e_pos;
+  int h_pos;
+  int g_direc;
+
+  if(abs(x_pos-hero.getXPos())<abs(y_pos-hero.getYPos())){
+    e_pos = y_pos;
+    h_pos = hero.getYPos();
+    g_direc = 1;
+  }
+  else{
+    e_pos = x_pos;
+    h_pos = hero.getXPos();
+    g_direc = 0;
+  }
+
+  if(h_pos>=e_pos){
+    if(direc==g_direc){
+      moveForward();
+      if(collisions(numEnemy,all_enemy)>1){
+        moveBackward();
+      }
+    }
+    else if(direc==g_direc+2){
+      moveBackward();
+      if(collisions(numEnemy,all_enemy)>1){
+        moveForward();
+      }
+    }
+    else{
+      turnRight();
     }
   }
-  return flag>0;
+  else{
+    if(direc==g_direc){
+      moveBackward();
+      if(collisions(numEnemy,all_enemy)>1){
+        moveForward();
+      }
+    }
+    else if(direc==g_direc+2){
+      moveForward();
+      if(collisions(numEnemy,all_enemy)>1){
+        moveBackward();
+      }
+    }
+    else{
+      turnLeft();
+    }
+  }
 }
 
 void dispBoard(int numEnemy, Robot enemy[],Hero hero){
@@ -159,68 +215,6 @@ void dispBoard(int numEnemy, Robot enemy[],Hero hero){
     std::cout <<"\n";
   }
   dispRules(1);
-}
-
-void enemyAI(int numEnemy, Robot all_enemy[], Robot& enemy, Hero& hero){
-  int e_pos;
-  int h_pos;
-  int g_direc;
-
-  if(abs(enemy.getXPos()-hero.getXPos())<abs(enemy.getYPos()-hero.getYPos())){
-    e_pos = enemy.getYPos();
-    h_pos = hero.getYPos();
-    g_direc = 1;
-  }
-  else{
-    e_pos = enemy.getXPos();
-    h_pos = hero.getXPos();
-    g_direc = 0;
-  }
-
-  if(h_pos>=e_pos){
-    if(enemy.getDirec()==g_direc){
-      enemy.moveForward();
-      if(enemyCollision(numEnemy,all_enemy,enemy)){
-        enemy.moveBackward();
-      }
-    }
-    else if(enemy.getDirec()==g_direc+2){
-      enemy.moveBackward();
-      if(enemyCollision(numEnemy,all_enemy,enemy)){
-        enemy.moveForward();
-      }
-    }
-    else{
-      enemy.turnRight();
-    }
-  }
-  else{
-    if(enemy.getDirec()==g_direc){
-      enemy.moveBackward();
-      if(enemyCollision(numEnemy,all_enemy,enemy)){
-        enemy.moveForward();
-      }
-    }
-    else if(enemy.getDirec()==g_direc+2){
-      enemy.moveForward();
-      if(enemyCollision(numEnemy,all_enemy,enemy)){
-        enemy.moveBackward();
-      }
-    }
-    else{
-      enemy.turnLeft();
-    }
-  }
-}
-
-bool enemyCollision(int numEnemy, Robot all_enemy[], Robot curr_enemy){
-  int flag = 0;
-  for(int i = 0; i<numEnemy; i++){
-    if((all_enemy[i].getXPos()==curr_enemy.getXPos())&&(all_enemy[i].getYPos()==curr_enemy.getYPos())){
-      flag++;
-    }
-  }
-  return flag>1;
 }
 
 void dispRules(int flag){

@@ -11,7 +11,6 @@ protected:
   int direc;
 
 public:
-  Robot();
   void moveForward();
   void moveBackward();
   void turnRight();
@@ -21,6 +20,7 @@ public:
   int getXPos();
   int getYPos();
   int getDirec();
+  int collisions(int numEnemy, Robot all_enemy[]);
 };
 
 class Hero : public Robot{
@@ -32,9 +32,13 @@ public:
   bool isHeroCaught(int numEnemy,Robot enemy[]);
 };
 
+class ChasingRobot : public Robot{
+public:
+  ChasingRobot();
+  void chaseAI(int numEnemy, Robot all_enemy[], Hero hero);
+};
+
 void dispBoard(int numEnemy, Robot enemy[],Hero hero);
-void enemyAI(int numEnemy, Robot all_enemy[], Robot& enemy, Hero& hero);
-bool enemyCollision(int numEnemy, Robot all_enemy[], Robot enemy);
 void dispRules(int flag);
 
 #endif

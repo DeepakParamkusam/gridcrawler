@@ -1,7 +1,6 @@
 #include "robot.h"
 
 int main(){
-  // Seed rand
   srand (time(NULL));
 
   // Display rules and request number of enemies
@@ -10,7 +9,7 @@ int main(){
   std::cout << "Enter number of enemies:\n";
   std::cin >> numEnemy;
 
-  // Makes sure input is an integer between 0-20. Then ignore newline character
+  // Makes sure input is an integer between 0-20. 
   while(std::cin.fail()||numEnemy>20||numEnemy<0) {
     std::cout << "Invalid input. Please enter integer <= 15" << std::endl;
     std::cin.clear();
@@ -22,7 +21,7 @@ int main(){
 
   // Initialise objects
   Hero hero;
-  Robot enemy[numEnemy];
+  ChasingRobot enemy[numEnemy];
 
   // Display board and start game
   dispBoard(numEnemy,enemy,hero);
@@ -38,7 +37,7 @@ int main(){
     else{
       hero.getInput();
       for(int i = 0; i<numEnemy; i++){
-        enemyAI(numEnemy,enemy,enemy[i],hero);
+        enemy[i].chaseAI(numEnemy,enemy,hero);
       }
       dispBoard(numEnemy,enemy,hero);
     }
