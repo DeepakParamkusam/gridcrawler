@@ -224,6 +224,6 @@ void dispRules(int flag){
     std::cout << "1. This is a turn based game. You move first and then each enemy moves one after another.\n2. You,the hero H, starts in the middle of a 22x14 grid. Reach the edge without getting caught to win!\n\n";
   }
   else{
-    std::cout << "\nUse W/A/S/D + Enter to move your hero H.\n\nW - Move Forward\nS - Move Backward\nD - Turn Right\nA - Turn Left\n\nRed enemies are facing ^ or v. Blue enemies are facing < or >.\n\n";
+    std::cout << "\nUse W/A/S/D + Enter to move your hero H.\n\nW - Move Forward\nS - Move Backward\nD - Turn Right\nA - Turn Left\n\nRed enemies are facing < or >. Blue enemies are facing ^ or v.\n\n";
   }
 }
